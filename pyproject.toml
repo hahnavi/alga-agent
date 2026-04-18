@@ -160,7 +160,6 @@ termux-all = [
   "hermes-agent[google]",
   "hermes-agent[homeassistant]",
   "hermes-agent[sms]",
-  "hermes-agent[web]",
 ]
 dingtalk = ["dingtalk-stream==0.24.3", "alibabacloud-dingtalk==2.2.42", "qrcode==7.4.2"]
 feishu = ["lark-oapi==1.5.3", "qrcode==7.4.2"]
@@ -180,10 +179,6 @@ youtube = [
   # at first invocation with ModuleNotFoundError (issue #22243).
   "youtube-transcript-api==1.2.4",
 ]
-# `hermes dashboard` (localhost SPA + API).  Not in core to keep the default install lean.
-# starlette==1.0.1 pinned for CVE-2026-48710 (BadHost) — fastapi pulls Starlette
-# transitively and pre-1.0.1 is the vulnerable range. See the mcp extra above.
-web = ["fastapi==0.133.1", "uvicorn[standard]==0.41.0", "starlette==1.0.1"]
 all = [
   # Policy (2026-05-12): `[all]` includes only extras that genuinely
   # CAN'T be lazy-installed via `tools/lazy_deps.py` — i.e. things every
@@ -215,7 +210,6 @@ all = [
   "hermes-agent[sms]",
   "hermes-agent[acp]",
   "hermes-agent[google]",
-  "hermes-agent[web]",
   "hermes-agent[youtube]",
 ]
 
@@ -228,7 +222,7 @@ hermes-acp = "acp_adapter.entry:main"
 py-modules = ["run_agent", "model_tools", "toolsets", "batch_runner", "trajectory_compressor", "toolset_distributions", "cli", "hermes_bootstrap", "hermes_constants", "hermes_state", "hermes_time", "hermes_logging", "utils", "mcp_serve"]
 
 [tool.setuptools.package-data]
-hermes_cli = ["web_dist/**/*", "tui_dist/**/*", "scripts/install.sh", "scripts/install.ps1"]
+hermes_cli = ["tui_dist/**/*", "scripts/install.sh", "scripts/install.ps1"]
 gateway = ["assets/**/*"]
 plugins = [
   "*/dashboard/manifest.json",
