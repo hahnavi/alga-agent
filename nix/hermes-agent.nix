@@ -50,10 +50,6 @@ let
     inherit hermesNpmLib;
   };
 
-  hermesWeb = callPackage ./web.nix {
-    inherit hermesNpmLib;
-  };
-
   bundledSkills = lib.cleanSourceWith {
     src = ../skills;
     filter = path: _type: !(lib.hasInfix "/index-cache/" path);
@@ -151,7 +147,6 @@ stdenv.mkDerivation (finalAttrs: {
     mkdir -p $out/share/hermes-agent $out/bin
     cp -r ${bundledSkills} $out/share/hermes-agent/skills
     cp -r ${bundledPlugins} $out/share/hermes-agent/plugins
-    cp -r ${hermesWeb} $out/share/hermes-agent/web_dist
 
     mkdir -p $out/ui-tui
     cp -r ${hermesTui}/lib/hermes-tui/* $out/ui-tui/
@@ -162,7 +157,6 @@ stdenv.mkDerivation (finalAttrs: {
           --suffix PATH : "${runtimePath}" \
           --set HERMES_BUNDLED_SKILLS $out/share/hermes-agent/skills \
           --set HERMES_BUNDLED_PLUGINS $out/share/hermes-agent/plugins \
-          --set HERMES_WEB_DIST $out/share/hermes-agent/web_dist \
           --set HERMES_TUI_DIR $out/ui-tui \
           --set HERMES_PYTHON ${hermesVenv}/bin/python3 \
           --set HERMES_NODE ${lib.getExe nodejs} \
@@ -188,7 +182,6 @@ stdenv.mkDerivation (finalAttrs: {
   passthru = {
     inherit
       hermesTui
-      hermesWeb
       hermesNpmLib
       hermesVenv
       ;

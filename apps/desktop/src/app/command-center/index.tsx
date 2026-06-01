@@ -51,9 +51,9 @@ export type CommandCenterSection = 'models' | 'sessions' | 'system' | 'usage'
 
 const SECTIONS = ['sessions', 'system', 'models', 'usage'] as const satisfies readonly CommandCenterSection[]
 
-// Mirrors `_AUX_TASK_SLOTS` in hermes_cli/web_server.py. Friendly labels and
-// hints make the assignments panel readable; raw task keys (vision, mcp, …)
-// are opaque to most users.
+// Mirrors the aux-task list in hermes_cli/main.py (`_AUX_TASKS`). Friendly
+// labels and hints make the assignments panel readable; raw task keys
+// (vision, mcp, …) are opaque to most users.
 interface AuxTaskMeta {
   hint: string
   key: string

@@ -387,8 +387,12 @@ class TestGuiMode:
     def test_gui_log_receives_only_gui_components(self, hermes_home):
         hermes_logging.setup_logging(hermes_home=hermes_home, mode="gui")
 
-        logging.getLogger("hermes_cli.web_server").info("dashboard online")
+        # gui.log receives records from tui_gateway.* (TUI gateway) and
+        # uvicorn.* (the embedded server). ``hermes_cli.web_server`` /
+        # ``hermes_cli.pty_bridge`` used to be in this prefix but were
+        # removed when the web UI dashboard was deleted.
         logging.getLogger("tui_gateway.ws").info("ws connected")
+        logging.getLogger("uvicorn.access").info("http req")
         logging.getLogger("gateway.run").info("gateway event")
 
         for h in logging.getLogger().handlers:
@@ -397,8 +401,8 @@ class TestGuiMode:
         gui_log = hermes_home / "logs" / "gui.log"
         assert gui_log.exists()
         content = gui_log.read_text()
-        assert "dashboard online" in content
         assert "ws connected" in content
+        assert "http req" in content
         assert "gateway event" not in content
 
 
@@ -609,8 +613,12 @@ class TestComponentPrefixes:
 
     def test_gui_prefix(self):
         prefixes = hermes_logging.COMPONENT_PREFIXES["gui"]
-        assert "hermes_cli.web_server" in prefixes
+        # After the web UI dashboard was removed, the gui log prefix is
+        # just tui_gateway.* + uvicorn.* (TUI gateway, embedded server).
+        assert "hermes_cli.web_server" not in prefixes
+        assert "hermes_cli.pty_bridge" not in prefixes
         assert "tui_gateway" in prefixes
+        assert "uvicorn" in prefixes
 
 
 class TestSetupVerboseLogging:

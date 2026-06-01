@@ -15,7 +15,7 @@ metadata:
 ## When to use this skill
 
 Load this skill when you're working on:
-- Adding or removing a static service in the Hermes Docker image (something that should be supervised at every container start, like the dashboard)
+- Adding or removing a static service in the Hermes Docker image (something that should be supervised at every container start)
 - Diagnosing why a per-profile gateway isn't starting, restarting, or surviving `docker restart`
 - Understanding why the container's CMD is `/opt/hermes/docker/main-wrapper.sh` and how leading-dash args reach the user's program
 - Modifying `cont-init.d` boot scripts (UID remap, volume seeding, profile reconciliation)
@@ -42,7 +42,6 @@ If you're just running the Hermes Agent and want to use Docker, see `website/doc
 │
 ├── s6-rc.d (static services, in /etc/s6-overlay/s6-rc.d/)
 │   ├── main-hermes/run                ← exec sleep infinity (no-op slot)
-│   └── dashboard/run                  ← if HERMES_DASHBOARD=1, runs `hermes dashboard`
 │
 ├── /run/service (s6-svscan watches; tmpfs)
 │   ├── gateway-coder/                 ← runtime-registered per-profile
@@ -66,7 +65,6 @@ If you're just running the Hermes Agent and want to use Docker, see `website/doc
 | `docker/cont-init.d/02-reconcile-profiles` | Calls `hermes_cli.container_boot` on every boot to restore profile gateway slots from the persistent volume. |
 | `docker/main-wrapper.sh` | The container's CMD. Routes user args, drops to hermes via `s6-setuidgid`, exec's the chosen program. |
 | `docker/s6-rc.d/main-hermes/run` | No-op `sleep infinity` — slot exists so the s6-rc user bundle is valid; main hermes runs as the CMD, not as a supervised service. |
-| `docker/s6-rc.d/dashboard/run` | Conditional service — `exec sleep infinity` unless `HERMES_DASHBOARD` is truthy. |
 | `docker/entrypoint.sh` | Back-compat shim that `exec`s the stage2 hook. External scripts that hard-coded the old entrypoint path still work. |
 | `hermes_cli/service_manager.py` | `S6ServiceManager`: `register_profile_gateway`, `unregister_profile_gateway`, `start/stop/restart/is_running`, `list_profile_gateways`. |
 | `hermes_cli/container_boot.py` | `reconcile_profile_gateways()` — walks persistent profiles, regenerates s6 slots, emits `container-boot.log`. |
@@ -81,7 +79,7 @@ The original plan (v1–v3) called for main hermes to run as a supervised s6-rc 
 
 So we use the s6-overlay-native CMD pattern: `ENTRYPOINT ["/init", "/opt/hermes/docker/main-wrapper.sh"]`. /init prepends the wrapper to user args automatically — so `docker run <image> --version` becomes `/init main-wrapper.sh --version`, and `--version` doesn't get intercepted by /init's POSIX shell. The wrapper drops to hermes via `s6-setuidgid`, then exec's the chosen program. The program's exit code becomes the container exit code, exactly matching the pre-s6 tini contract.
 
-Trade-off: main hermes is unsupervised under s6. That exactly matches its behavior under tini (the pre-s6 image). Dashboard supervision is the only **new** guarantee — and per-profile gateways under `/run/service/` get full supervision.
+Trade-off: main hermes is unsupervised under s6. That exactly matches its behavior under tini (the pre-s6 image). Per-profile gateways under `/run/service/` get full supervision.
 
 ## Quick recipes
 

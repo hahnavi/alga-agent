@@ -88,11 +88,11 @@ def _set_last_init_error(msg: Optional[str]) -> None:
     Thread-safe via _last_init_error_lock.  Callers pass a message to
     record a failure or None to clear.  SessionDB.__init__ only calls
     this to SET on failure — it deliberately does NOT clear on success,
-    because in a multi-threaded caller (e.g. gateway / web_server per-
-    request SessionDB() instantiation), a concurrent successful open
-    racing past a different thread's failure would erase the cause
-    string that thread's /resume handler is about to format.  Explicit
-    clears (e.g. test fixtures) are still supported by passing None.
+    because in a multi-threaded caller (e.g. the gateway's per-request
+    SessionDB() instantiation), a concurrent successful open racing past
+    a different thread's failure would erase the cause string that
+    thread's /resume handler is about to format.  Explicit clears (e.g.
+    test fixtures) are still supported by passing None.
     """
     global _last_init_error
     with _last_init_error_lock:
@@ -429,10 +429,10 @@ class SessionDB:
             #
             # Note: we deliberately do NOT clear _last_init_error on the
             # success path (no else branch).  In multi-threaded callers
-            # (gateway, web_server per-request SessionDB()), a concurrent
-            # successful open racing past this failure would erase the
-            # cause that another thread's /resume is about to format.
-            # Tests that need to reset the state can call
+            # (gateway per-request SessionDB()), a concurrent successful
+            # open racing past this failure would erase the cause that
+            # another thread's /resume is about to format.  Tests that
+            # need to reset the state can call
             # ``hermes_state._set_last_init_error(None)`` explicitly.
             _set_last_init_error(f"{type(exc).__name__}: {exc}")
             raise

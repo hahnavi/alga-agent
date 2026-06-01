@@ -26,9 +26,9 @@ def test_every_on_disk_subpackage_is_covered_by_packages_find():
     top-level package is listed twice — bare (``hermes_cli``) for the package
     itself and ``hermes_cli.*`` for its subpackages — EXCEPT when someone
     forgets the wildcard. v0.15.x listed ``hermes_cli`` without ``hermes_cli.*``,
-    so the wheel shipped ``hermes_cli/*.py`` but dropped the ``dashboard_auth``
-    and ``proxy`` subpackages. The dashboard then died on every install with
-    ``ModuleNotFoundError: No module named 'hermes_cli.dashboard_auth'``.
+    so the wheel shipped ``hermes_cli/*.py`` but dropped the ``proxy``
+    subpackage. A user-importing module from that subpackage then died on every
+    install with ``ModuleNotFoundError: No module named 'hermes_cli.proxy'``.
 
     This drives setuptools' own discovery against the live tree: every package
     that exists on disk and would be found by a permissive ``<name>.*`` scan

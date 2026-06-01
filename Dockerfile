@@ -22,15 +22,15 @@ ENV PLAYWRIGHT_BROWSERS_PATH=/opt/hermes/.playwright
 # ran as PID 1. See #15012. Phase 2 of the s6-overlay supervision plan
 # replaces tini with s6-overlay's /init (PID 1 = s6-svscan), which reaps
 # zombies non-blockingly on SIGCHLD and additionally supervises the main
-# hermes process, the dashboard, and per-profile gateways.
+# hermes process and per-profile gateways.
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
     ca-certificates curl iputils-ping python3 python-is-python3 ripgrep ffmpeg gcc python3-dev libffi-dev procps git openssh-client docker-cli xz-utils && \
     rm -rf /var/lib/apt/lists/*
 
 # ---------- s6-overlay install ----------
-# s6-overlay provides supervision for the main hermes process, the dashboard,
-# and per-profile gateways. /init becomes PID 1 below — see ENTRYPOINT.
+# s6-overlay provides supervision for the main hermes process and
+# per-profile gateways. /init becomes PID 1 below — see ENTRYPOINT.
 #
 # Multi-arch: BuildKit auto-populates TARGETARCH (amd64 / arm64). s6-overlay
 # uses tarball names keyed on the kernel arch string (x86_64 / aarch64), so
@@ -113,7 +113,6 @@ WORKDIR /opt/hermes
 # ui-tui/package.json.  Copying the tree up front lets npm resolve the
 # workspace to real content instead of stopping at a bare package.json.
 COPY package.json package-lock.json ./
-COPY web/package.json web/package-lock.json web/
 COPY ui-tui/package.json ui-tui/package-lock.json ui-tui/
 COPY ui-tui/packages/hermes-ink/ ui-tui/packages/hermes-ink/
 
@@ -130,8 +129,6 @@ COPY ui-tui/packages/hermes-ink/ ui-tui/packages/hermes-ink/
 ENV npm_config_install_links=false
 
 RUN npm install --prefer-offline --no-audit && \
-    npx playwright install --with-deps chromium --only-shell && \
-    (cd web && npm install --prefer-offline --no-audit) && \
     (cd ui-tui && npm install --prefer-offline --no-audit) && \
     npm cache clean --force
 
@@ -168,18 +165,15 @@ RUN uv sync --frozen --no-install-project --extra all --extra messaging --extra 
 # .dockerignore excludes node_modules, so the installs above survive.
 COPY --chown=hermes:hermes . .
 
-# Build browser dashboard and terminal UI assets.
-RUN cd web && npm run build && \
-    cd ../ui-tui && npm run build
+# Build the terminal UI assets.
+RUN cd ui-tui && npm run build
 
 # ---------- Permissions ----------
 # Make install dir world-readable so any HERMES_UID can read it at runtime.
 # The venv needs to be traversable too.
 # node_modules trees additionally need to be writable by the hermes user
 # so the runtime `npm install` triggered by _tui_need_npm_install() in
-# hermes_cli/main.py succeeds (see #18800). /opt/hermes/web is build-time
-# only (HERMES_WEB_DIST points at hermes_cli/web_dist) and is intentionally
-# not chowned here.
+# hermes_cli/main.py succeeds (see #18800).
 # The .venv MUST remain hermes-writable so lazy_deps.py can install
 # remaining optional platform packages and future pin bumps at first use.
 # Without this, `uv pip install` fails with EACCES and adapters silently
@@ -221,7 +215,9 @@ RUN if [ -n "${HERMES_GIT_SHA}" ]; then \
     fi
 
 # ---------- s6-overlay service wiring ----------
-# Static services declared at build time: main-hermes + dashboard.
+# Static services declared at build time: main-hermes. (The web UI
+# dashboard used to ship as a second static service, but the dashboard
+# was removed.)
 # Per-profile gateway services are registered dynamically at runtime by
 # the profile create/delete hooks (Phase 4); they live under
 # /run/service/ (tmpfs) and are reconciled on container restart by
@@ -244,7 +240,6 @@ COPY --chmod=0755 docker/cont-init.d/015-supervise-perms /etc/cont-init.d/015-su
 COPY --chmod=0755 docker/cont-init.d/02-reconcile-profiles /etc/cont-init.d/02-reconcile-profiles
 
 # ---------- Runtime ----------
-ENV HERMES_WEB_DIST=/opt/hermes/hermes_cli/web_dist
 ENV HERMES_HOME=/opt/data
 
 # `docker exec` privilege-drop shim. When operators run

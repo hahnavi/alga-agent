@@ -1,8 +1,9 @@
 """Behavior tests for hermes_cli.inventory.
 
-Locks the invariants the three migrated consumers (web_server.py
-/api/model/options, tui_gateway model.options, tui_gateway model.save_key)
-depend on:
+Locks the invariants the two remaining migrated consumers
+(tui_gateway model.options, tui_gateway model.save_key) depend on.
+The third consumer (the web dashboard's /api/model/options) was removed
+when the web UI dashboard was deleted.
 
 - load_picker_context() reproduces the inline 17-LOC config-slice exactly.
 - with_overrides() is truthy-only (empty agent attrs must not clobber).

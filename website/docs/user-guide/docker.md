@@ -74,47 +74,14 @@ docker run -d \
 
 Opening any port on an internet facing machine is a security risk. You should not do it unless you understand the risks.
 
-## Running the dashboard
+## ~~Running the dashboard~~ *(removed)*
 
-The built-in web dashboard runs as a supervised s6-rc service alongside the gateway in the same container. Set `HERMES_DASHBOARD=1` to bring it up:
+The web UI dashboard was removed from Hermes Agent. The `hermes dashboard`
+command, the `HERMES_DASHBOARD` environment variable, the `docker_auth/nous`
+plugin, and the PTY bridge for the in-browser Chat tab are all gone.
 
-```sh
-docker run -d \
-  --name hermes \
-  --restart unless-stopped \
-  -v ~/.hermes:/opt/data \
-  -p 8642:8642 \
-  -p 9119:9119 \
-  -e HERMES_DASHBOARD=1 \
-  nousresearch/hermes-agent gateway run
-```
-
-The dashboard is supervised by s6 — if it crashes, `s6-supervise` restarts it automatically after a short backoff. Dashboard stdout/stderr is forwarded to `docker logs <container>` (no prefix; the gateway's own output now lives in a per-profile s6-log file — see [Where the logs go](#where-the-logs-go) below — so the two streams don't clash).
-
-| Environment variable | Description | Default |
-|---------------------|-------------|---------|
-| `HERMES_DASHBOARD` | Set to `1` (or `true` / `yes`) to enable the supervised dashboard service | *(unset — service is registered but stays down)* |
-| `HERMES_DASHBOARD_HOST` | Bind address for the dashboard HTTP server | `0.0.0.0` |
-| `HERMES_DASHBOARD_PORT` | Port for the dashboard HTTP server | `9119` |
-| `HERMES_DASHBOARD_TUI` | Set to `1` to expose the in-browser Chat tab (embedded `hermes --tui` via PTY/WebSocket) | *(unset)* |
-| `HERMES_DASHBOARD_INSECURE` | Set to `1` (or `true` / `yes`) to bind without the OAuth auth gate. Only use on trusted networks behind a reverse proxy without the OAuth contract — the dashboard exposes API keys and session data | *(unset — gate enforced when a `DashboardAuthProvider` is registered)* |
-
-The dashboard inside the container defaults to binding `0.0.0.0` — without it, the published `-p 9119:9119` port would not be reachable from the host. To restrict the bind to container loopback (for sidecar / reverse-proxy setups), set `HERMES_DASHBOARD_HOST=127.0.0.1`.
-
-The dashboard's OAuth auth gate engages automatically when both of the following are true:
-
-1. The bind host is non-loopback (e.g. the default `0.0.0.0` inside the container), **and**
-2. A `DashboardAuthProvider` plugin is registered.
-
-The bundled `dashboard_auth/nous` provider activates whenever `HERMES_DASHBOARD_OAUTH_CLIENT_ID` is set (see [Web Dashboard → Authentication](features/web-dashboard.md)). With the gate engaged, browser callers are redirected to the configured portal's OAuth flow before they can reach any protected route.
-
-If no provider is registered and the bind is non-loopback, the dashboard **fails closed at startup** with a specific error pointing at the missing env var. To opt out of the gate explicitly — for a trusted-LAN deployment behind your own reverse proxy without the OAuth contract — set `HERMES_DASHBOARD_INSECURE=1`. This is the **only** path that disables the gate; the bind host alone never implies `--insecure` (it used to, but that predated the OAuth gate and silently disabled it on every container-deployed dashboard).
-
-:::warning `HERMES_DASHBOARD_INSECURE=1` exposes API keys
-Opting out of the OAuth gate serves the dashboard's API surface (including model keys and session data) to anyone who can reach the published port. Only enable it when you have your own auth layer in front, or on a trusted LAN you fully control.
-:::
-
-Running the dashboard as a separate container is not supported: its gateway-liveness detection requires a shared PID namespace with the gateway process.
+The `--tui` mode (`hermes --tui`) remains the recommended interactive chat
+interface and does not depend on the web dashboard.
 
 ## Running interactively (CLI chat)
 
