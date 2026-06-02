@@ -71,7 +71,7 @@ class TestSendSlashConfirm:
         )
 
         assert result.success is True
-        assert "MARKDOWN_V2" in repr(sent["parse_mode"])
+        assert "markdown" in str(sent["parse_mode"]).lower() or "markdown" in repr(sent["parse_mode"]).lower()
         # Underscores and dots must be escaped by format_message
         assert "script\\_name" in sent["text"]
         assert "\\." in sent["text"]

@@ -145,6 +145,8 @@ class DeliveryTarget:
             chat_id = parts[1] if len(parts) > 1 else None
             thread_id = parts[2] if len(parts) > 2 else None
             try:
+                if not Platform.is_known(platform_str):
+                    raise ValueError(f"Unknown platform {platform_str}")
                 platform = Platform(platform_str)
                 return cls(platform=platform, chat_id=chat_id, thread_id=thread_id, is_explicit=True)
             except ValueError:
@@ -153,6 +155,8 @@ class DeliveryTarget:
         
         # Just a platform name (use home channel)
         try:
+            if not Platform.is_known(target_lower):
+                raise ValueError(f"Unknown platform {target_lower}")
             platform = Platform(target_lower)
             return cls(platform=platform)
         except ValueError:
