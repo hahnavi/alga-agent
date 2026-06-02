@@ -48,10 +48,9 @@
         };
 
         tui = hermesAgent.hermesTui;
-        desktop = hermesAgent.hermesDesktop;
 
         fix-lockfiles = hermesAgent.hermesNpmLib.mkFixLockfiles {
-          packages = [ hermesAgent.hermesTui hermesAgent.hermesDesktop ];
+          packages = [ hermesAgent.hermesTui ];
         };
       };
     };
