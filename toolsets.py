@@ -37,10 +37,8 @@ _HERMES_CORE_TOOLS = [
     "read_file", "write_file", "patch", "search_files",
     # Skills
     "skills_list", "skill_view", "skill_manage",
-    # Text-to-speech
-    "text_to_speech",
     # Planning & memory
-    "todo", "memory",
+    "memory",
     # Session history search
     "session_search",
     # Clarifying questions
@@ -51,14 +49,6 @@ _HERMES_CORE_TOOLS = [
     "cronjob",
     # Cross-platform messaging (gated on gateway running via check_fn)
     "send_message",
-    # Kanban multi-agent coordination — only in schema when the agent is
-    # spawned as a kanban worker (HERMES_KANBAN_TASK env set) or the current
-    # profile explicitly enables the kanban toolset. Gated via check_fn in
-    # tools/kanban_tools.py.
-    "kanban_show", "kanban_list",
-    "kanban_complete", "kanban_block", "kanban_heartbeat",
-    "kanban_comment", "kanban_create", "kanban_link",
-    "kanban_unblock",
 ]
 
 # Webhook events may originate from untrusted third-party content (for example,
@@ -122,18 +112,7 @@ TOOLSETS = {
         "tools": ["read_file", "write_file", "patch", "search_files"],
         "includes": []
     },
-    
-    "tts": {
-        "description": "Text-to-speech: convert text to audio with Edge TTS (free), ElevenLabs, OpenAI, or xAI",
-        "tools": ["text_to_speech"],
-        "includes": []
-    },
-    
-    "todo": {
-        "description": "Task planning and tracking for multi-step work",
-        "tools": ["todo"],
-        "includes": []
-    },
+
     
     "memory": {
         "description": "Persistent memory across sessions (personal notes + user profile)",
@@ -171,24 +150,6 @@ TOOLSETS = {
         "includes": []
     },
 
-    "kanban": {
-        "description": (
-            "Kanban multi-agent coordination — only active when the agent "
-            "is spawned by the kanban dispatcher (HERMES_KANBAN_TASK env "
-            "set). The dispatcher runs inside the gateway by default; see "
-            "`kanban.dispatch_in_gateway` in config.yaml. Lets workers mark "
-            "tasks done with structured handoffs, block for human input, "
-            "heartbeat during long ops, comment on threads, and (for "
-            "orchestrators) list, unblock, and fan out tasks."
-        ),
-        "tools": [
-            "kanban_show", "kanban_list", "kanban_complete", "kanban_block",
-            "kanban_heartbeat", "kanban_comment",
-            "kanban_create", "kanban_link",
-            "kanban_unblock",
-        ],
-        "includes": [],
-    },
 
     # Scenario-specific toolsets
     
