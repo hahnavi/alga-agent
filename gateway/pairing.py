@@ -15,7 +15,7 @@ Security features (based on OWASP + NIST SP 800-63-4 guidance):
   - File permissions: chmod 0600 on all data files
   - Codes are never logged to stdout
 
-Storage: ~/.hermes/pairing/
+Storage: ~/.alga/pairing/
 """
 
 import hashlib
@@ -37,7 +37,7 @@ def normalize_whatsapp_identifier(val):
     return val
 
 
-from hermes_constants import get_hermes_dir
+from alga_constants import get_alga_dir
 from utils import atomic_replace
 
 
@@ -54,7 +54,7 @@ LOCKOUT_SECONDS = 3600              # Lockout duration after too many failures
 MAX_PENDING_PER_PLATFORM = 3        # Max pending codes per platform
 MAX_FAILED_ATTEMPTS = 5             # Failed approvals before lockout
 
-PAIRING_DIR = get_hermes_dir("platforms/pairing", "pairing")
+PAIRING_DIR = get_alga_dir("platforms/pairing", "pairing")
 
 
 def _secure_write(path: Path, data: str) -> None:

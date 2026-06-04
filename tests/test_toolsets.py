@@ -211,9 +211,9 @@ class TestToolsetConsistency:
             for inc in ts["includes"]:
                 assert inc in TOOLSETS, f"{name} includes unknown toolset '{inc}'"
 
-    def test_hermes_platforms_share_core_tools(self):
-        """All hermes-* platform toolsets share the same core tools."""
-        platforms = ["hermes-cli", "hermes-telegram"]
+    def test_alga_platforms_share_core_tools(self):
+        """All alga-* platform toolsets share the same core tools."""
+        platforms = ["alga-cli", "alga-telegram"]
         tool_sets = [set(TOOLSETS[p]["tools"]) for p in platforms]
         # All platforms must contain the shared core; platform-specific
         # extras are OK (subset check, not equality).
@@ -242,8 +242,8 @@ class TestPluginToolsets:
 
 
 class TestDefaultPlatformWebSearchCoverage:
-    def test_hermes_telegram_toolset_includes_web_search(self):
-        assert "web_search" in resolve_toolset("hermes-telegram")
+    def test_alga_telegram_toolset_includes_web_search(self):
+        assert "web_search" in resolve_toolset("alga-telegram")
 
-    def test_hermes_cli_toolset_includes_web_search(self):
-        assert "web_search" in resolve_toolset("hermes-cli")
+    def test_alga_cli_toolset_includes_web_search(self):
+        assert "web_search" in resolve_toolset("alga-cli")

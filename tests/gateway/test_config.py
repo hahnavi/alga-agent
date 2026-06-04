@@ -204,9 +204,9 @@ class TestGatewayConfigRoundtrip:
 
 class TestLoadGatewayConfig:
     def test_bridges_quick_commands_from_config_yaml(self, tmp_path, monkeypatch):
-        hermes_home = tmp_path / ".hermes"
-        hermes_home.mkdir()
-        config_path = hermes_home / "config.yaml"
+        alga_home = tmp_path / ".alga"
+        alga_home.mkdir()
+        config_path = alga_home / "config.yaml"
         config_path.write_text(
             "quick_commands:\n"
             "  limits:\n"
@@ -215,68 +215,68 @@ class TestLoadGatewayConfig:
             encoding="utf-8",
         )
 
-        monkeypatch.setenv("HERMES_HOME", str(hermes_home))
+        monkeypatch.setenv("ALGA_HOME", str(alga_home))
 
         config = load_gateway_config()
 
         assert config.quick_commands == {"limits": {"type": "exec", "command": "echo ok"}}
 
     def test_bridges_group_sessions_per_user_from_config_yaml(self, tmp_path, monkeypatch):
-        hermes_home = tmp_path / ".hermes"
-        hermes_home.mkdir()
-        config_path = hermes_home / "config.yaml"
+        alga_home = tmp_path / ".alga"
+        alga_home.mkdir()
+        config_path = alga_home / "config.yaml"
         config_path.write_text("group_sessions_per_user: false\n", encoding="utf-8")
 
-        monkeypatch.setenv("HERMES_HOME", str(hermes_home))
+        monkeypatch.setenv("ALGA_HOME", str(alga_home))
 
         config = load_gateway_config()
 
         assert config.group_sessions_per_user is False
 
     def test_bridges_thread_sessions_per_user_from_config_yaml(self, tmp_path, monkeypatch):
-        hermes_home = tmp_path / ".hermes"
-        hermes_home.mkdir()
-        config_path = hermes_home / "config.yaml"
+        alga_home = tmp_path / ".alga"
+        alga_home.mkdir()
+        config_path = alga_home / "config.yaml"
         config_path.write_text("thread_sessions_per_user: true\n", encoding="utf-8")
 
-        monkeypatch.setenv("HERMES_HOME", str(hermes_home))
+        monkeypatch.setenv("ALGA_HOME", str(alga_home))
 
         config = load_gateway_config()
 
         assert config.thread_sessions_per_user is True
 
     def test_thread_sessions_per_user_defaults_to_false(self, tmp_path, monkeypatch):
-        hermes_home = tmp_path / ".hermes"
-        hermes_home.mkdir()
-        config_path = hermes_home / "config.yaml"
+        alga_home = tmp_path / ".alga"
+        alga_home.mkdir()
+        config_path = alga_home / "config.yaml"
         config_path.write_text("{}\n", encoding="utf-8")
 
-        monkeypatch.setenv("HERMES_HOME", str(hermes_home))
+        monkeypatch.setenv("ALGA_HOME", str(alga_home))
 
         config = load_gateway_config()
 
         assert config.thread_sessions_per_user is False
 
     def test_bridges_quoted_false_platform_enabled_from_config_yaml(self, tmp_path, monkeypatch):
-        hermes_home = tmp_path / ".hermes"
-        hermes_home.mkdir()
-        config_path = hermes_home / "config.yaml"
+        alga_home = tmp_path / ".alga"
+        alga_home.mkdir()
+        config_path = alga_home / "config.yaml"
         config_path.write_text(
             "telegram:\n"
             "  enabled: \"false\"\n",
             encoding="utf-8",
         )
 
-        monkeypatch.setenv("HERMES_HOME", str(hermes_home))
+        monkeypatch.setenv("ALGA_HOME", str(alga_home))
 
         config = load_gateway_config()
 
         assert config.platforms[Platform.TELEGRAM].enabled is False
 
     def test_bridges_nested_gateway_platforms_from_config_yaml(self, tmp_path, monkeypatch):
-        hermes_home = tmp_path / ".hermes"
-        hermes_home.mkdir()
-        config_path = hermes_home / "config.yaml"
+        alga_home = tmp_path / ".alga"
+        alga_home.mkdir()
+        config_path = alga_home / "config.yaml"
         config_path.write_text(
             "gateway:\n"
             "  platforms:\n"
@@ -286,7 +286,7 @@ class TestLoadGatewayConfig:
             encoding="utf-8",
         )
 
-        monkeypatch.setenv("HERMES_HOME", str(hermes_home))
+        monkeypatch.setenv("ALGA_HOME", str(alga_home))
 
         config = load_gateway_config()
 
@@ -295,9 +295,9 @@ class TestLoadGatewayConfig:
         assert config.platforms[Platform.TELEGRAM].token == "nested-token"
 
     def test_top_level_platforms_override_nested_gateway_platforms(self, tmp_path, monkeypatch):
-        hermes_home = tmp_path / ".hermes"
-        hermes_home.mkdir()
-        config_path = hermes_home / "config.yaml"
+        alga_home = tmp_path / ".alga"
+        alga_home.mkdir()
+        config_path = alga_home / "config.yaml"
         config_path.write_text(
             "telegram:\n"
             "  token: top-level-token\n"
@@ -308,16 +308,16 @@ class TestLoadGatewayConfig:
             encoding="utf-8",
         )
 
-        monkeypatch.setenv("HERMES_HOME", str(hermes_home))
+        monkeypatch.setenv("ALGA_HOME", str(alga_home))
 
         config = load_gateway_config()
 
         assert config.platforms[Platform.TELEGRAM].token == "top-level-token"
 
     def test_bridges_quoted_false_session_notify_from_config_yaml(self, tmp_path, monkeypatch):
-        hermes_home = tmp_path / ".hermes"
-        hermes_home.mkdir()
-        config_path = hermes_home / "config.yaml"
+        alga_home = tmp_path / ".alga"
+        alga_home.mkdir()
+        config_path = alga_home / "config.yaml"
         config_path.write_text(
             "gateway:\n"
             "  default_reset_policy:\n"
@@ -325,32 +325,32 @@ class TestLoadGatewayConfig:
             encoding="utf-8",
         )
 
-        monkeypatch.setenv("HERMES_HOME", str(hermes_home))
+        monkeypatch.setenv("ALGA_HOME", str(alga_home))
 
         config = load_gateway_config()
 
         assert config.default_reset_policy.notify is False
 
     def test_bridges_quoted_false_always_log_local_from_config_yaml(self, tmp_path, monkeypatch):
-        hermes_home = tmp_path / ".hermes"
-        hermes_home.mkdir()
-        config_path = hermes_home / "config.yaml"
+        alga_home = tmp_path / ".alga"
+        alga_home.mkdir()
+        config_path = alga_home / "config.yaml"
         config_path.write_text(
             "gateway:\n"
             "  always_log_local: \"false\"\n",
             encoding="utf-8",
         )
 
-        monkeypatch.setenv("HERMES_HOME", str(hermes_home))
+        monkeypatch.setenv("ALGA_HOME", str(alga_home))
 
         config = load_gateway_config()
 
         assert config.always_log_local is False
 
     def test_bridges_telegram_channel_prompts_from_config_yaml(self, tmp_path, monkeypatch):
-        hermes_home = tmp_path / ".hermes"
-        hermes_home.mkdir()
-        config_path = hermes_home / "config.yaml"
+        alga_home = tmp_path / ".alga"
+        alga_home.mkdir()
+        config_path = alga_home / "config.yaml"
         config_path.write_text(
             "telegram:\n"
             "  channel_prompts:\n"
@@ -359,7 +359,7 @@ class TestLoadGatewayConfig:
             encoding="utf-8",
         )
 
-        monkeypatch.setenv("HERMES_HOME", str(hermes_home))
+        monkeypatch.setenv("ALGA_HOME", str(alga_home))
 
         config = load_gateway_config()
 
@@ -369,21 +369,21 @@ class TestLoadGatewayConfig:
         }
 
     def test_invalid_quick_commands_in_config_yaml_are_ignored(self, tmp_path, monkeypatch):
-        hermes_home = tmp_path / ".hermes"
-        hermes_home.mkdir()
-        config_path = hermes_home / "config.yaml"
+        alga_home = tmp_path / ".alga"
+        alga_home.mkdir()
+        config_path = alga_home / "config.yaml"
         config_path.write_text("quick_commands: not-a-mapping\n", encoding="utf-8")
 
-        monkeypatch.setenv("HERMES_HOME", str(hermes_home))
+        monkeypatch.setenv("ALGA_HOME", str(alga_home))
 
         config = load_gateway_config()
 
         assert config.quick_commands == {}
 
     def test_bridges_unauthorized_dm_behavior_from_config_yaml(self, tmp_path, monkeypatch):
-        hermes_home = tmp_path / ".hermes"
-        hermes_home.mkdir()
-        config_path = hermes_home / "config.yaml"
+        alga_home = tmp_path / ".alga"
+        alga_home.mkdir()
+        config_path = alga_home / "config.yaml"
         config_path.write_text(
             "unauthorized_dm_behavior: ignore\n"
             "telegram:\n"
@@ -391,7 +391,7 @@ class TestLoadGatewayConfig:
             encoding="utf-8",
         )
 
-        monkeypatch.setenv("HERMES_HOME", str(hermes_home))
+        monkeypatch.setenv("ALGA_HOME", str(alga_home))
 
         config = load_gateway_config()
 
@@ -399,25 +399,25 @@ class TestLoadGatewayConfig:
         assert config.platforms[Platform.TELEGRAM].extra["unauthorized_dm_behavior"] == "pair"
 
     def test_bridges_telegram_disable_link_previews_from_config_yaml(self, tmp_path, monkeypatch):
-        hermes_home = tmp_path / ".hermes"
-        hermes_home.mkdir()
-        config_path = hermes_home / "config.yaml"
+        alga_home = tmp_path / ".alga"
+        alga_home.mkdir()
+        config_path = alga_home / "config.yaml"
         config_path.write_text(
             "telegram:\n"
             "  disable_link_previews: true\n",
             encoding="utf-8",
         )
 
-        monkeypatch.setenv("HERMES_HOME", str(hermes_home))
+        monkeypatch.setenv("ALGA_HOME", str(alga_home))
 
         config = load_gateway_config()
 
         assert config.platforms[Platform.TELEGRAM].extra["disable_link_previews"] is True
 
     def test_bridges_telegram_extra_base_url_from_config_yaml(self, tmp_path, monkeypatch):
-        hermes_home = tmp_path / ".hermes"
-        hermes_home.mkdir()
-        config_path = hermes_home / "config.yaml"
+        alga_home = tmp_path / ".alga"
+        alga_home.mkdir()
+        config_path = alga_home / "config.yaml"
         config_path.write_text(
             "telegram:\n"
             "  extra:\n"
@@ -425,7 +425,7 @@ class TestLoadGatewayConfig:
             encoding="utf-8",
         )
 
-        monkeypatch.setenv("HERMES_HOME", str(hermes_home))
+        monkeypatch.setenv("ALGA_HOME", str(alga_home))
 
         config = load_gateway_config()
 
@@ -435,16 +435,16 @@ class TestLoadGatewayConfig:
         )
 
     def test_bridges_telegram_proxy_url_from_config_yaml(self, tmp_path, monkeypatch):
-        hermes_home = tmp_path / ".hermes"
-        hermes_home.mkdir()
-        config_path = hermes_home / "config.yaml"
+        alga_home = tmp_path / ".alga"
+        alga_home.mkdir()
+        config_path = alga_home / "config.yaml"
         config_path.write_text(
             "telegram:\n"
             "  proxy_url: socks5://127.0.0.1:1080\n",
             encoding="utf-8",
         )
 
-        monkeypatch.setenv("HERMES_HOME", str(hermes_home))
+        monkeypatch.setenv("ALGA_HOME", str(alga_home))
         monkeypatch.delenv("TELEGRAM_PROXY", raising=False)
 
         load_gateway_config()
@@ -453,16 +453,16 @@ class TestLoadGatewayConfig:
         assert os.environ.get("TELEGRAM_PROXY") == "socks5://127.0.0.1:1080"
 
     def test_telegram_proxy_env_takes_precedence_over_config(self, tmp_path, monkeypatch):
-        hermes_home = tmp_path / ".hermes"
-        hermes_home.mkdir()
-        config_path = hermes_home / "config.yaml"
+        alga_home = tmp_path / ".alga"
+        alga_home.mkdir()
+        config_path = alga_home / "config.yaml"
         config_path.write_text(
             "telegram:\n"
             "  proxy_url: http://from-config:8080\n",
             encoding="utf-8",
         )
 
-        monkeypatch.setenv("HERMES_HOME", str(hermes_home))
+        monkeypatch.setenv("ALGA_HOME", str(alga_home))
         monkeypatch.setenv("TELEGRAM_PROXY", "socks5://from-env:1080")
 
         load_gateway_config()

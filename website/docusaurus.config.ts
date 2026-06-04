@@ -3,15 +3,15 @@ import type {Config} from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
 
 const config: Config = {
-  title: 'Hermes Agent',
+  title: 'Alga Agent',
   tagline: 'The self-improving AI agent',
   favicon: 'img/favicon.ico',
 
-  url: 'https://hermes-agent.nousresearch.com',
+  url: 'https://alga-agent.hahnavi.my.id',
   baseUrl: '/docs/',
 
-  organizationName: 'NousResearch',
-  projectName: 'hermes-agent',
+  organizationName: 'hahnavi',
+  projectName: 'alga-agent',
 
   onBrokenLinks: 'warn',
 
@@ -73,7 +73,7 @@ const config: Config = {
         docs: {
           routeBasePath: '/',  // Docs at the root of /docs/
           sidebarPath: './sidebars.ts',
-          editUrl: 'https://github.com/NousResearch/hermes-agent/edit/main/website/',
+          editUrl: 'https://github.com/hahnavi/alga-agent/edit/main/website/',
         },
         blog: false,
         theme: {
@@ -84,7 +84,7 @@ const config: Config = {
   ],
 
   themeConfig: {
-    image: 'img/hermes-agent-banner.png',
+    image: 'img/alga-agent-banner.png',
     colorMode: {
       defaultMode: 'dark',
       respectPrefersColorScheme: true,
@@ -96,9 +96,9 @@ const config: Config = {
       },
     },
     navbar: {
-      title: 'Hermes Agent',
+      title: 'Alga Agent',
       logo: {
-        alt: 'Hermes Agent',
+        alt: 'Alga Agent',
         src: 'img/logo.png',
       },
       items: [
@@ -114,7 +114,7 @@ const config: Config = {
           position: 'left',
         },
         {
-          href: 'https://github.com/NousResearch/hermes-agent/releases/latest',
+          href: 'https://github.com/hahnavi/alga-agent/releases/latest',
           label: 'Download',
           position: 'left',
         },
@@ -123,12 +123,12 @@ const config: Config = {
           position: 'right',
         },
         {
-          href: 'https://hermes-agent.nousresearch.com',
+          href: 'https://alga-agent.hahnavi.my.id',
           label: 'Home',
           position: 'right',
         },
         {
-          href: 'https://github.com/NousResearch/hermes-agent',
+          href: 'https://github.com/hahnavi/alga-agent',
           label: 'GitHub',
           position: 'right',
         },
@@ -155,15 +155,15 @@ const config: Config = {
           title: 'Community',
           items: [
             { label: 'Discord', href: 'https://discord.gg/NousResearch' },
-            { label: 'GitHub Discussions', href: 'https://github.com/NousResearch/hermes-agent/discussions' },
+            { label: 'GitHub Discussions', href: 'https://github.com/hahnavi/alga-agent/discussions' },
             { label: 'Skills Hub', href: 'https://agentskills.io' },
           ],
         },
         {
           title: 'More',
           items: [
-            { label: 'Desktop Download', href: 'https://github.com/NousResearch/hermes-agent/releases/latest' },
-            { label: 'GitHub', href: 'https://github.com/NousResearch/hermes-agent' },
+            { label: 'Desktop Download', href: 'https://github.com/hahnavi/alga-agent/releases/latest' },
+            { label: 'GitHub', href: 'https://github.com/hahnavi/alga-agent' },
             { label: 'Nous Research', href: 'https://nousresearch.com' },
           ],
         },

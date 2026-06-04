@@ -1,4 +1,4 @@
-import { Box, type ScrollBoxHandle, stringWidth, Text } from '@hermes/ink'
+import { Box, type ScrollBoxHandle, stringWidth, Text } from '@alga/ink'
 import { useStore } from '@nanostores/react'
 import { type ReactNode, type RefObject, useEffect, useMemo, useRef, useState } from 'react'
 import unicodeSpinners from 'unicode-animations'
@@ -27,7 +27,7 @@ export const padVerb = (verb: string) => `${verb}…`.padEnd(VERB_PAD_LEN, ' ')
 
 // Compact alternates for the `emoji` and `ascii` indicator styles.
 // Each entry is a fixed-width (display-width) glyph.
-const EMOJI_FRAMES = ['⚕ ', '🌀', '🤔', '✨', '🍵', '🔮']
+const EMOJI_FRAMES = ['🍀 ', '🌀', '🤔', '✨', '🍵', '🔮']
 const ASCII_FRAMES = ['|', '/', '-', '\\']
 
 // Faster tick for spinner-style indicators — they read as motion only
@@ -51,7 +51,7 @@ const renderIndicator = (style: IndicatorStyle, tick: number): IndicatorRender =
 
   if (style === 'emoji') {
     return {
-      frame: EMOJI_FRAMES[tick % EMOJI_FRAMES.length] ?? '⚕ ',
+      frame: EMOJI_FRAMES[tick % EMOJI_FRAMES.length] ?? '🍀 ',
       intervalMs: SPINNER_TICK_MS * 6,
       showVerb: true
     }

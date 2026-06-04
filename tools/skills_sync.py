@@ -2,7 +2,7 @@
 """
 Skills Sync -- Manifest-based seeding and updating of bundled skills.
 
-Copies bundled skills from the repo's skills/ directory into ~/.hermes/skills/
+Copies bundled skills from the repo's skills/ directory into ~/.alga/skills/
 and uses a manifest to track which skills have been synced and their origin hash.
 
 Manifest format (v2): each line is "skill_name:origin_hash" where origin_hash
@@ -18,7 +18,7 @@ Update logic:
   - DELETED by user (in manifest, absent from user dir): respected, not re-added.
   - REMOVED from bundled (in manifest, gone from repo): cleaned from manifest.
 
-The manifest lives at ~/.hermes/skills/.bundled_manifest.
+The manifest lives at ~/.alga/skills/.bundled_manifest.
 """
 
 import hashlib
@@ -28,7 +28,7 @@ import os
 import shutil
 from datetime import datetime, timezone
 from pathlib import Path, PurePosixPath
-from hermes_constants import get_bundled_skills_dir, get_hermes_home, get_optional_skills_dir
+from alga_constants import get_bundled_skills_dir, get_alga_home, get_optional_skills_dir
 from agent.skill_utils import is_excluded_skill_path
 from typing import Dict, List, Tuple
 from utils import atomic_replace
@@ -36,15 +36,15 @@ from utils import atomic_replace
 logger = logging.getLogger(__name__)
 
 
-HERMES_HOME = get_hermes_home()
-SKILLS_DIR = HERMES_HOME / "skills"
+ALGA_HOME = get_alga_home()
+SKILLS_DIR = ALGA_HOME / "skills"
 MANIFEST_FILE = SKILLS_DIR / ".bundled_manifest"
 
 
 def _get_bundled_dir() -> Path:
     """Locate the bundled skills/ directory.
 
-    Checks HERMES_BUNDLED_SKILLS env var first (set by Nix wrapper),
+    Checks ALGA_BUNDLED_SKILLS env var first (set by Nix wrapper),
     then a wheel-installed data dir, then falls back to the relative
     path from this source file.
     """
@@ -87,7 +87,7 @@ def _read_suppressed_names() -> set:
     """Built-in skills the curator pruned — must NOT be re-seeded on sync.
 
     Delegates to ``tools.skill_usage`` (single source of truth) and falls back
-    to reading ``~/.hermes/skills/.curator_suppressed`` directly if that import
+    to reading ``~/.alga/skills/.curator_suppressed`` directly if that import
     is unavailable in a packaged/update context.
     """
     try:
@@ -185,7 +185,7 @@ def _discover_bundled_skills(bundled_dir: Path) -> List[Tuple[str, Path]]:
 def _compute_relative_dest(skill_dir: Path, bundled_dir: Path) -> Path:
     """
     Compute the destination path in SKILLS_DIR preserving the category structure.
-    e.g., bundled/skills/mlops/axolotl -> ~/.hermes/skills/mlops/axolotl
+    e.g., bundled/skills/mlops/axolotl -> ~/.alga/skills/mlops/axolotl
     """
     rel = skill_dir.relative_to(bundled_dir)
     return SKILLS_DIR / rel
@@ -444,7 +444,7 @@ def _backfill_optional_provenance(quiet: bool = False) -> List[str]:
 
 def sync_skills(quiet: bool = False) -> dict:
     """
-    Sync bundled skills into ~/.hermes/skills/ using the manifest.
+    Sync bundled skills into ~/.alga/skills/ using the manifest.
 
     Returns:
         dict with keys: copied (list), updated (list), skipped (int),
@@ -472,9 +472,9 @@ def sync_skills(quiet: bool = False) -> dict:
 
     for skill_name, skill_src in bundled_skills:
         # Curator-pruned built-ins: do not re-seed. The suppression list
-        # (~/.hermes/skills/.curator_suppressed) is written when the curator
+        # (~/.alga/skills/.curator_suppressed) is written when the curator
         # archives a bundled skill with curator.prune_builtins enabled. Without
-        # this skip, every `hermes update` would resurrect a skill the user
+        # this skip, every `alga update` would resurrect a skill the user
         # deliberately pruned. Restoring the skill clears its suppression entry.
         if skill_name in suppressed:
             suppressed_skipped.append(skill_name)
@@ -503,7 +503,7 @@ def sync_skills(quiet: bool = False) -> dict:
                         print(
                             f"  ⚠ {skill_name}: bundled version shipped but you "
                             f"already have a local skill by this name — yours "
-                            f"was kept. Run `hermes skills reset {skill_name}` "
+                            f"was kept. Run `alga skills reset {skill_name}` "
                             f"to replace it with the bundled version."
                         )
                 else:
@@ -666,7 +666,7 @@ def reset_bundled_skill(name: str, restore: bool = False) -> dict:
             "action": "not_in_manifest",
             "message": (
                 f"'{name}' is not a tracked bundled skill. Nothing to reset. "
-                f"(Hub-installed skills use `hermes skills uninstall`.)"
+                f"(Hub-installed skills use `alga skills uninstall`.)"
             ),
             "synced": None,
         }
@@ -720,7 +720,7 @@ def reset_bundled_skill(name: str, restore: bool = False) -> dict:
     else:
         action = "manifest_cleared"
         message = (
-            f"Cleared manifest entry for '{name}'. Future `hermes update` runs "
+            f"Cleared manifest entry for '{name}'. Future `alga update` runs "
             f"will re-baseline against your current copy and accept upstream changes."
         )
 
@@ -728,7 +728,7 @@ def reset_bundled_skill(name: str, restore: bool = False) -> dict:
 
 
 if __name__ == "__main__":
-    print("Syncing bundled skills into ~/.hermes/skills/ ...")
+    print("Syncing bundled skills into ~/.alga/skills/ ...")
     result = sync_skills(quiet=False)
     parts = [
         f"{len(result['copied'])} new",

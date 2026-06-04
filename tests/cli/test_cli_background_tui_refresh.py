@@ -7,12 +7,12 @@ to prevent spinner/status bar overlap (#2718).
 from unittest.mock import MagicMock, patch
 
 
-from cli import HermesCLI
+from cli import AlgaCLI
 
 
 def _make_cli():
-    """Create a minimal HermesCLI instance for testing."""
-    cli_obj = HermesCLI.__new__(HermesCLI)
+    """Create a minimal AlgaCLI instance for testing."""
+    cli_obj = AlgaCLI.__new__(AlgaCLI)
     cli_obj.model = "test-model"
     cli_obj._background_tasks = {}
     cli_obj._background_task_counter = 0

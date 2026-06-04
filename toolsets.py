@@ -28,7 +28,7 @@ from typing import List, Dict, Any, Set, Optional
 
 # Shared tool list for CLI and all messaging platform toolsets.
 # Edit this once to update all platforms simultaneously.
-_HERMES_CORE_TOOLS = [
+_ALGA_CORE_TOOLS = [
     # Web
     "web_search", "web_extract",
     # Terminal + process management
@@ -54,7 +54,7 @@ _HERMES_CORE_TOOLS = [
 # Webhook events may originate from untrusted third-party content (for example,
 # public PR titles/comments). Keep the default webhook toolset intentionally
 # constrained to avoid local file/system execution by prompt injection.
-_HERMES_WEBHOOK_SAFE_TOOLS = [
+_ALGA_WEBHOOK_SAFE_TOOLS = [
     "web_search",
     "web_extract",
     "clarify",
@@ -166,43 +166,43 @@ TOOLSETS = {
     },
     
     # ==========================================================================
-    # Full Hermes toolsets (CLI + Telegram)
+    # Full Alga toolsets (CLI + Telegram)
     #
     # All platforms share the same core tools (including send_message,
     # which is gated on gateway running via its check_fn).
     # ==========================================================================
 
-    "hermes-cli": {
+    "alga-cli": {
         "description": "Full interactive CLI toolset - all default tools plus cronjob management",
-        "tools": _HERMES_CORE_TOOLS,
+        "tools": _ALGA_CORE_TOOLS,
         "includes": []
     },
 
-    "hermes-cron": {
-        # Mirrors hermes-cli so cron's "default" toolset is the same set of
-        # core tools users see interactively — then `hermes tools` filters
+    "alga-cron": {
+        # Mirrors alga-cli so cron's "default" toolset is the same set of
+        # core tools users see interactively — then `alga tools` filters
         # them down per the platform config.
-        "description": "Default cron toolset - same core tools as hermes-cli; gated by `hermes tools`",
-        "tools": _HERMES_CORE_TOOLS,
+        "description": "Default cron toolset - same core tools as alga-cli; gated by `alga tools`",
+        "tools": _ALGA_CORE_TOOLS,
         "includes": []
     },
 
-    "hermes-telegram": {
+    "alga-telegram": {
         "description": "Telegram bot toolset - full access for personal use (terminal has safety checks)",
-        "tools": _HERMES_CORE_TOOLS,
+        "tools": _ALGA_CORE_TOOLS,
         "includes": []
     },
 
-    "hermes-webhook": {
+    "alga-webhook": {
         "description": "Webhook toolset - receive and process external webhook events",
-        "tools": _HERMES_WEBHOOK_SAFE_TOOLS,
+        "tools": _ALGA_WEBHOOK_SAFE_TOOLS,
         "includes": []
     },
 
-    "hermes-gateway": {
+    "alga-gateway": {
         "description": "Gateway toolset - union of all messaging platform tools",
         "tools": [],
-        "includes": ["hermes-telegram", "hermes-webhook"]
+        "includes": ["alga-telegram", "alga-webhook"]
     }
 }
 
@@ -297,15 +297,15 @@ def resolve_toolset(name: str, visited: Set[str] = None) -> List[str]:
     # Get toolset definition
     toolset = get_toolset(name)
     if not toolset:
-        # Auto-generate a toolset for plugin platforms (hermes-<name>).
-        # Gives them _HERMES_CORE_TOOLS plus any tools the plugin registered
+        # Auto-generate a toolset for plugin platforms (alga-<name>).
+        # Gives them _ALGA_CORE_TOOLS plus any tools the plugin registered
         # into a toolset matching the platform name.
-        if name.startswith("hermes-"):
-            platform_name = name[len("hermes-"):]
+        if name.startswith("alga-"):
+            platform_name = name[len("alga-"):]
             try:
                 from gateway.platform_registry import platform_registry
                 if platform_registry.is_registered(platform_name):
-                    plugin_tools = set(_HERMES_CORE_TOOLS)
+                    plugin_tools = set(_ALGA_CORE_TOOLS)
                     try:
                         from tools.registry import registry
                         plugin_tools.update(
