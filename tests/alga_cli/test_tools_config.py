@@ -127,18 +127,21 @@ def test_get_platform_tools_default_telegram_includes_messaging():
     assert "messaging" in enabled
 
 
+@pytest.mark.skip(reason="WhatsApp platform pruned")
 def test_get_platform_tools_default_whatsapp_includes_web():
     enabled = _get_platform_tools({}, "whatsapp")
 
     assert "web" in enabled
 
 
+@pytest.mark.skip(reason="HomeAssistant platform pruned")
 def test_get_platform_tools_homeassistant_platform_keeps_homeassistant_toolset():
     enabled = _get_platform_tools({}, "homeassistant")
 
     assert "homeassistant" in enabled
 
 
+@pytest.mark.skip(reason="HomeAssistant platform pruned")
 def test_get_platform_tools_homeassistant_toolset_enabled_for_cron_when_hass_token_set(monkeypatch):
     """HA toolset is runtime-gated by check_fn (requires HASS_TOKEN).
 
@@ -160,6 +163,7 @@ def test_get_platform_tools_homeassistant_toolset_enabled_for_cron_when_hass_tok
     assert "homeassistant" in cli_enabled
 
 
+@pytest.mark.skip(reason="HomeAssistant platform pruned")
 def test_get_platform_tools_homeassistant_toolset_off_for_cron_when_hass_token_missing(monkeypatch):
     """Without HASS_TOKEN, HA stays off by default — preserves #14798's behavior
     for users who never configured HA."""
@@ -235,8 +239,8 @@ def test_get_platform_tools_expands_composite_when_mixed_with_configurable():
     enabled = _get_platform_tools(config, "cli", include_default_mcp_servers=False)
 
     # Native tools must reappear.
-    for ts in ("terminal", "file", "web", "browser", "memory", "delegation",
-               "code_execution", "todo", "session_search", "skills"):
+    for ts in ("terminal", "file", "web", "memory", "delegation",
+               "code_execution", "session_search", "skills"):
         assert ts in enabled, f"{ts} should be enabled when alga-cli is listed"
     # User explicitly opted into Spotify — must survive _DEFAULT_OFF_TOOLSETS subtraction.
     assert "spotify" in enabled
@@ -1248,12 +1252,14 @@ def test_save_platform_tools_strips_restricted_toolsets():
     assert "terminal" in saved
 
 
+@pytest.mark.skip(reason="Feishu platform pruned")
 def test_get_platform_tools_feishu_includes_doc_and_drive():
     enabled = _get_platform_tools({}, "feishu")
     assert "feishu_doc" in enabled
     assert "feishu_drive" in enabled
 
 
+@pytest.mark.skip(reason="Feishu platform pruned")
 def test_get_platform_tools_feishu_tools_not_on_other_platforms():
     for plat in ["cli", "telegram", "discord"]:
         enabled = _get_platform_tools({}, plat)

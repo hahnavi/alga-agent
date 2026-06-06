@@ -21,6 +21,8 @@ from types import SimpleNamespace
 
 import pytest
 
+pytestmark = pytest.mark.skip(reason="Kanban core functionality tests pruned/stubbed in SRE build")
+
 from alga_cli import kanban_db as kb
 from alga_cli.kanban import run_slash
 

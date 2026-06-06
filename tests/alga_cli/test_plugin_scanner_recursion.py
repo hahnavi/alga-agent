@@ -272,6 +272,7 @@ class TestBackendGate:
 
 
 class TestBundledBackendAutoLoad:
+    @pytest.mark.skip(reason="OpenAI image gen plugin pruned in SRE build")
     def test_bundled_image_gen_openai_autoloads(self, tmp_path, monkeypatch):
         """The bundled ``plugins/image_gen/openai/`` plugin loads without
         any opt-in — it's ``kind: backend`` and shipped in-repo."""

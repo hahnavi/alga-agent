@@ -6,6 +6,7 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
+pytestmark = pytest.mark.skip(reason="DingTalk platform pruned in SRE build")
 
 # ---------------------------------------------------------------------------
 # API layer — _api_post + error mapping

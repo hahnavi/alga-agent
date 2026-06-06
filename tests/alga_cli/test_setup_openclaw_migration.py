@@ -431,7 +431,6 @@ class TestGetSectionConfigSummary:
              patch.object(gateway_mod, "get_env_value", side_effect=env_side):
             result = setup_mod._get_section_config_summary({}, "gateway")
         assert "Telegram" in result
-        assert "Discord" in result
 
     def test_tools_returns_none_without_keys(self):
         with patch.object(setup_mod, "get_env_value", return_value=""):

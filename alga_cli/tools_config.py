@@ -2335,7 +2335,15 @@ def _detect_active_provider_index(
 
 def _fal_model_catalog():
     """Lazy-load the FAL model catalog from the tool module."""
-    from tools.image_generation_tool import FAL_MODELS, DEFAULT_MODEL
+    try:
+        from tools.image_generation_tool import FAL_MODELS, DEFAULT_MODEL
+    except ModuleNotFoundError:
+        DEFAULT_MODEL = "fal-ai/flux-2/klein/9b"
+        FAL_MODELS = {
+            "fal-ai/flux-2/klein/9b": {"speed": "Fast", "strengths": "General", "price": "Cheap"},
+            "fal-ai/flux-2-pro": {"speed": "Slow", "strengths": "Detail", "price": "Expensive"},
+            "fal-ai/gpt-image-1.5": {"speed": "Medium", "strengths": "Quality", "price": "Standard"},
+        }
     return FAL_MODELS, DEFAULT_MODEL
 
 

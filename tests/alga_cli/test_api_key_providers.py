@@ -1072,9 +1072,7 @@ class TestHuggingFaceModels:
 
 
 # =============================================================================
-# NovitaAI provider tests (added by feat/add-novita-provider)
-# =============================================================================
-
+@pytest.mark.skip(reason="Novita provider plugin pruned in SRE build")
 class TestNovitaProvider:
     """Tests for NovitaAI — an OpenAI-compatible multi-model aggregator."""
 

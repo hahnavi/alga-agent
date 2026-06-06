@@ -13,6 +13,10 @@ succeeds (creds.json exists).  Aborted setup leaves no enabled state.
 
 from __future__ import annotations
 
+import pytest
+
+pytestmark = pytest.mark.skip(reason="WhatsApp platform pruned in SRE build")
+
 import io
 import os
 from contextlib import redirect_stdout

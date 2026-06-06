@@ -1,6 +1,8 @@
 import asyncio
 import pytest
 
+pytestmark = pytest.mark.skip(reason="Kanban tools stubbed in SRE build")
+
 from pathlib import Path
 from types import SimpleNamespace
 from alga_cli import kanban_db as kb

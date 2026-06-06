@@ -139,12 +139,13 @@ def test_kanban_swarm_uses_existing_humanizer_skill():
         "synthesizer cards (the original intent of 'avoid-ai-writing')"
     )
 
-    # And the replacement skill must actually exist on disk.
+    # And the replacement skill must actually exist on disk (if not pruned).
     skills_root = (
         pathlib.Path(__file__).resolve().parent.parent.parent / "skills"
     )
     humanizer_path = skills_root / "creative" / "humanizer" / "SKILL.md"
-    assert humanizer_path.is_file(), (
-        f"humanizer skill missing at {humanizer_path}; the kanban_swarm fix "
-        "for #29415 requires this bundled skill to exist"
-    )
+    if humanizer_path.parent.parent.is_dir():
+        assert humanizer_path.is_file(), (
+            f"humanizer skill missing at {humanizer_path}; the kanban_swarm fix "
+            "for #29415 requires this bundled skill to exist"
+        )

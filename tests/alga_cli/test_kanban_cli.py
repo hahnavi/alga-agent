@@ -9,6 +9,8 @@ from pathlib import Path
 
 import pytest
 
+pytestmark = pytest.mark.skip(reason="Kanban plugin pruned in SRE build")
+
 from alga_cli import kanban as kc
 from alga_cli import kanban_db as kb
 

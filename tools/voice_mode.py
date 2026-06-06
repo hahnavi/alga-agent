@@ -23,3 +23,6 @@ def stop_playback(*args, **kwargs):
 
 def cleanup_temp_recordings(*args, **kwargs):
     pass
+
+def is_whisper_hallucination(text: str) -> bool:
+    return False

@@ -1,5 +1,6 @@
 """Tests for the central command registry and autocomplete."""
 
+import pytest
 from prompt_toolkit.completion import CompleteEvent
 from prompt_toolkit.document import Document
 
@@ -622,6 +623,7 @@ class TestSubcommands:
         assert "normal" in subs
         assert "status" in subs
 
+    @pytest.mark.skip(reason="Voice command pruned in SRE build")
     def test_voice_has_subcommands(self):
         assert "/voice" in SUBCOMMANDS
         assert "on" in SUBCOMMANDS["/voice"]

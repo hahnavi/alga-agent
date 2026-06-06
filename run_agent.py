@@ -102,7 +102,11 @@ from model_tools import (
 )
 from tools.terminal_tool import cleanup_vm
 from tools.interrupt import set_interrupt as _set_interrupt
-from tools.browser_tool import cleanup_browser
+try:
+    from tools.browser_tool import cleanup_browser
+except ModuleNotFoundError:
+    def cleanup_browser(*args, **kwargs):
+        pass
 
 
 # Agent internals extracted to agent/ package for modularity

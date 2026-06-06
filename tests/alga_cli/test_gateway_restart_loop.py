@@ -29,7 +29,7 @@ class TestGatewayLifecyclePattern:
         "alga gateway stop",
         "alga gateway start",
         "alga  gateway  restart",         # double spaces
-        "Hermez Gateway Restart".lower().replace("z", "s"),  # case handled
+        "Algaz Gateway Restart".lower().replace("z", ""),  # case handled
         "ALGA GATEWAY RESTART",           # uppercase
     ])
     def test_alga_gateway_commands(self, text):
