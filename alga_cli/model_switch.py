@@ -51,23 +51,23 @@ logger = logging.getLogger(__name__)
 # ---------------------------------------------------------------------------
 
 _ALGA_MODEL_WARNING = (
-    "Nous Research Hermes 3 & 4 models are NOT agentic and are not designed "
+    "Alga Hermes 3 & 4 models are NOT agentic and are not designed "
     "for use with Alga Agent. They lack the tool-calling capabilities "
     "required for agent workflows. Consider using an agentic model instead "
     "(Claude, GPT, Gemini, DeepSeek, etc.)."
 )
 
-# Match only the real Nous Research Hermes 3 / Hermes 4 chat families.
+# Match only the real Alga Hermes 3 / Hermes 4 chat families.
 # The previous substring check (`"alga" in name.lower()`) false-positived on
 # unrelated local Modelfiles like ``hermes-brain:qwen3-14b-ctx16k`` that just
 # happen to carry "alga" in their tag but are fully tool-capable.
 #
 # Positive examples the regex must match:
-#   NousResearch/Hermes-3-Llama-3.1-70B, hermes-4-405b, openrouter/hermes3:70b
+#   Alga/Hermes-3-Llama-3.1-70B, hermes-4-405b, openrouter/hermes3:70b
 # Negative examples it must NOT match:
 #   hermes-brain:qwen3-14b-ctx16k, qwen3:14b, claude-opus-4-6
 _NOUS_ALGA_NON_AGENTIC_RE = re.compile(
-    r"(?:^|[/:])alga[-_ ]?[34](?:[-_.:]|$)",
+    r"(?:^|[/:])(?:alga|hermes)[-_ ]?[34](?:[-_.:]|$)",
     re.IGNORECASE,
 )
 

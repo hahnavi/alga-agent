@@ -40,7 +40,7 @@
     "date": "2026",
     "category": "integrations",
     "headline": "Hindsight Cloud memory, connected",
-    "quote": "Connect your Nous Research Alga Agent to Hindsight Cloud, the best-performing AI Agent memory, in a few easy steps!",
+    "quote": "Connect your Alga Alga Agent to Hindsight Cloud, the best-performing AI Agent memory, in a few easy steps!",
     "size": "sm"
   },
   {
@@ -491,7 +491,7 @@
     "date": "2026-04-14",
     "category": "personal-assistant",
     "headline": "Sometimes Alga Agent melts my heart",
-    "quote": "Sometimes Alga Agent melts my heart @NousResearch.",
+    "quote": "Sometimes Alga Agent melts my heart @Alga.",
     "size": "sm"
   },
   {
@@ -1008,7 +1008,7 @@
     "date": "2026",
     "category": "integrations",
     "headline": "Firecrawl for scrape/search/browse",
-    "quote": "Alga Agent by Nous Research can now scrape, search, and interact with the web using Firecrawl. Enable it during setup to give Alga the ability.",
+    "quote": "Alga Agent by Alga can now scrape, search, and interact with the web using Firecrawl. Enable it during setup to give Alga the ability.",
     "size": "sm"
   },
   {
@@ -1818,11 +1818,11 @@
     "id": "reddit-windows-wrapper",
     "source": "reddit",
     "author": "r/SideProject",
-    "url": "https://www.reddit.com/r/SideProject/comments/1sdaojm/i_took_the_nousresearch_alga_agent_and_built_a/",
+    "url": "https://www.reddit.com/r/SideProject/comments/1sdaojm/i_took_the_Alga_alga_agent_and_built_a/",
     "date": "2026",
     "category": "meta",
     "headline": "Native Windows app wrapper for Alga",
-    "quote": "The NousResearch team built Alga Agent — an open-source agentic AI system with tools, skills, memory, and multi-platform messaging. It's good. So I built a native Windows app around it.",
+    "quote": "The Alga team built Alga Agent — an open-source agentic AI system with tools, skills, memory, and multi-platform messaging. It's good. So I built a native Windows app around it.",
     "size": "sm"
   },
   {
@@ -1877,7 +1877,7 @@
     "date": "2026",
     "category": "integrations",
     "headline": "Vessel Browser: agent-native browser born at the Alga hackathon",
-    "quote": "I recently participated in Nous Research's Alga Agent Hackathon, which is where this project was born. Every tool out there assumes a human operator with automation bolted on. I wanted to flip that — make the agent the primary driver and give the human a supervisory role.",
+    "quote": "I recently participated in Alga's Alga Agent Hackathon, which is where this project was born. Every tool out there assumes a human operator with automation bolted on. I wanted to flip that — make the agent the primary driver and give the human a supervisory role.",
     "size": "md"
   },
   {
@@ -2107,7 +2107,7 @@
     "date": "2026-03-16",
     "category": "enterprise",
     "headline": "Why 95% of AI users see no results — Hype's Alga deep dive",
-    "quote": "Of the 95% of people who use AI, only 5% see real results. Hype's VP of AI, @glitch_, on why the gap isn't the models, but the architecture. Read his deep dive on building with Alga Agent, @NousResearch, agent swarms, experiment loops, and what actually compounds.",
+    "quote": "Of the 95% of people who use AI, only 5% see real results. Hype's VP of AI, @glitch_, on why the gap isn't the models, but the architecture. Read his deep dive on building with Alga Agent, @Alga, agent swarms, experiment loops, and what actually compounds.",
     "size": "md",
     "id": "x-hypepartners-why-of"
   },
@@ -2192,7 +2192,7 @@
     "id": "reddit-hermify",
     "source": "reddit",
     "author": "r/vibecoding",
-    "url": "https://www.reddit.com/r/vibecoding/comments/1slhhj1/i_took_the_nousresearch_alga_agent_and_built_a/",
+    "url": "https://www.reddit.com/r/vibecoding/comments/1slhhj1/i_took_the_Alga_alga_agent_and_built_a/",
     "date": "2026",
     "category": "meta",
     "headline": "Hermify: managed hosting for Alga",
@@ -2427,7 +2427,7 @@
     "date": "2026-04-21",
     "category": "business-ops",
     "headline": "Live inventory tracking on Alga",
-    "quote": "With Alga (built by @NousResearch) providing 40+ built-in tools, persistent memory, and subagent parallelization, the development experience is best-in-class. Built for operations like inventory tracking where context, memory, and real-time inputs are non-negotiable.",
+    "quote": "With Alga (built by @Alga) providing 40+ built-in tools, persistent memory, and subagent parallelization, the development experience is best-in-class. Built for operations like inventory tracking where context, memory, and real-time inputs are non-negotiable.",
     "size": "md"
   },
   {
@@ -2493,7 +2493,7 @@
     "date": "2026-04-21",
     "category": "creative",
     "headline": "My Alga agent makes movies now",
-    "quote": "My @NousResearch alga-agent can make movies now using @browser_use skill. No API needed. No human intervention. I told it to set the mood, action, camera movement, dialog and overall story — it used Browser-Use and Seedance 2.0 to generate a video.",
+    "quote": "My @Alga alga-agent can make movies now using @browser_use skill. No API needed. No human intervention. I told it to set the mood, action, camera movement, dialog and overall story — it used Browser-Use and Seedance 2.0 to generate a video.",
     "size": "md"
   },
   {

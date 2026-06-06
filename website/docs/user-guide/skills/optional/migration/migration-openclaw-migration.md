@@ -17,7 +17,7 @@ Migrate a user's OpenClaw customization footprint into Alga Agent. Imports Alga-
 | Source | Optional — install with `alga skills install official/migration/openclaw-migration` |
 | Path | `optional-skills/migration/openclaw-migration` |
 | Version | `1.0.0` |
-| Author | Alga Agent (Nous Research) |
+| Author | Alga Agent (Alga) |
 | License | MIT |
 | Platforms | linux, macos, windows |
 | Tags | `Migration`, `OpenClaw`, `Alga`, `Memory`, `Persona`, `Import` |

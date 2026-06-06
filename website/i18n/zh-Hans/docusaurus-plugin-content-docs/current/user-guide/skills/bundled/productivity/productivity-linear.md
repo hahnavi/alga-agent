@@ -290,7 +290,7 @@ Linear **Documents** 是与 issues 并列存储的文档（RFC、规范、笔记
 https://linear.app/<workspace>/document/<slug>-<hexSlugId>
 ```
 
-末尾的十六进制段即为 `slugId`。示例：`https://linear.app/nousresearch/document/rfc-hermes-permission-gateway-discord-38359beef67c` → `slugId` 为 `38359beef67c`。
+末尾的十六进制段即为 `slugId`。示例：`https://linear.app/Alga/document/rfc-hermes-permission-gateway-discord-38359beef67c` → `slugId` 为 `38359beef67c`。
 
 **重要 schema 细节：** Markdown 正文在 `content` 字段中。ProseMirror JSON 在 `contentState` 中（不是 `contentData`——该字段不存在，API 会返回 400）。
 
