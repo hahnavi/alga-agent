@@ -1590,7 +1590,7 @@ setup_path() {
     rm -f "$command_link_dir/alga"
     cat > "$command_link_dir/alga" <<EOF
 #!/usr/bin/env bash
-unset PYTHONPATH
+export PYTHONPATH="$INSTALL_DIR"
 unset PYTHONHOME
 exec "$ALGA_BIN" "\$@"
 EOF
@@ -2026,9 +2026,9 @@ run_setup_wizard() {
     # Run alga setup using the venv Python directly (no activation needed).
     # Redirect stdin from /dev/tty so interactive prompts work when piped from curl.
     if [ "$USE_VENV" = true ]; then
-        "$INSTALL_DIR/venv/bin/python" -m alga_cli.main setup < /dev/tty
+        env PYTHONPATH="$INSTALL_DIR" "$INSTALL_DIR/venv/bin/python" -m alga_cli.main setup < /dev/tty
     else
-        python -m alga_cli.main setup < /dev/tty
+        env PYTHONPATH="$INSTALL_DIR" python -m alga_cli.main setup < /dev/tty
     fi
 }
 
